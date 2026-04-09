@@ -1,0 +1,87 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+
+<body style="text-align: center;">
+    <h1>Image Classifier</h1>
+
+    {% if prediction%}
+    <h2>Prediction: {{ prediction }}</h2>
+
+    <img src="{{ url_for('static', filename=filename) }}" alt="Uploaded Image">{% endif %}
+    <h4>{{ dims }}</h4>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png" required>
+        <button type="submit">Upload & Predict</button>
+    </form>
+
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left">
+            <h1>Image Classifier</h1>
+            <!-- <p>Please upload your screenshot payment here</p> -->
+            <form method="POST" action="/" enctype="multipart/form-data" id="uploadForm">
+                <input type="file" name="file" accept=".jpg, .jpeg, .png" required>
+                <button type="submit">Upload & Predict</button>
+            </form>
+
+             <!-- Prediction Section (text and image) -->
+            {% if prediction %}
+            <div class="prediction-result">
+                <h2>Prediction: {{ prediction }}</h2>
+                
+                <!-- Show checklist or cross based on the prediction -->
+                {% if class_predict == 'Asli' %}
+                    <img src="{{ url_for('static', filename='images/Check.png') }}" alt="Checklist" class="result-icon">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/Cross.png') }}" alt="Cross" class="result-icon">
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right Section (Transparent Box for Uploaded Image or Homepage Image) -->
+        <div class="right">
+            {% if filename %}
+            <div class="image-box">
+                <img src="{{ url_for('static', filename=filename) }}" alt="Uploaded Image" class="uploaded-img">
+            </div>
+            {% else %}
+            <div class="homepage-image">
+                <img src="{{ url_for('static', filename='images/Homepage.png') }}" alt="Homepage Image" class="homepage-img">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+<script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', function() {
+        document.querySelector('.homepage-img').style.display = 'none';  // Hide homepage image on submit
+        document.querySelector('.image-box').style.display = 'block';    // Show uploaded image box
+    });
+</script>
+
+</html>
